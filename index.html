@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noc Halloween</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #0a0e27 0%, #1a1a2e 50%, #0f0f1e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            position: relative;
+        }
+
+        .moon {
+            position: absolute;
+            top: 50px;
+            right: 100px;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #fff 0%, #ddd 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 60px #fff, 0 0 100px #fff6;
+            z-index: 1;
+        }
+
+        .bat {
+            position: absolute;
+            font-size: 35px;
+            animation: fly-bat linear infinite;
+            z-index: 2;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.8));
+        }
+
+        @keyframes fly-bat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(25vw, 15vh) scale(0.8);
+            }
+            50% {
+                transform: translate(50vw, -10vh) scale(1.2);
+            }
+            75% {
+                transform: translate(75vw, 20vh) scale(0.9);
+            }
+            100% {
+                transform: translate(100vw, 5vh) scale(1);
+            }
+        }
+
+        .content {
+            text-align: center;
+            z-index: 10;
+            color: #fff;
+            padding: 20px;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: #ff6b00;
+            text-shadow: 0 0 20px #ff6b00, 0 0 40px #ff6b00, 0 5px 10px #000;
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+        }
+
+        .description {
+            font-size: 1.2rem;
+            color: #ddd;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+            text-shadow: 2px 2px 4px #000;
+            background: rgba(0,0,0,0.5);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ff6b00;
+        }
+
+        .warning-btn {
+            background: linear-gradient(145deg, #ff4500, #8b0000);
+            color: #fff;
+            border: 3px solid #ff0000;
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 69, 0, 0.5);
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .warning-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px rgba(255, 0, 0, 0.9);
+        }
+
+        .jumpscare {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .jumpscare.active {
+            display: flex;
+            animation: intense-shake 0.05s infinite;
+        }
+
+        .jumpscare-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .scary-face {
+            width: 90vw;
+            height: 90vh;
+            max-width: 800px;
+            max-height: 800px;
+            position: relative;
+            animation: zoom-in 0.3s ease-out;
+        }
+
+        @keyframes zoom-in {
+            0% { transform: scale(0.1); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes intense-shake {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            10% { transform: translate(-15px, 15px) rotate(-3deg); }
+            20% { transform: translate(15px, -15px) rotate(3deg); }
+            30% { transform: translate(-15px, -15px) rotate(-2deg); }
+            40% { transform: translate(15px, 15px) rotate(2deg); }
+            50% { transform: translate(-10px, 10px) rotate(-3deg); }
+            60% { transform: translate(10px, -10px) rotate(3deg); }
+            70% { transform: translate(-15px, -10px) rotate(-2deg); }
+            80% { transform: translate(15px, 10px) rotate(2deg); }
+            90% { transform: translate(-10px, -15px) rotate(-3deg); }
+            100% { transform: translate(10px, 15px) rotate(3deg); }
+        }
+
+        .pumpkin {
+            position: absolute;
+            bottom: 50px;
+            font-size: 3rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .blood-drip {
+            position: absolute;
+            color: #8b0000;
+            font-size: 2rem;
+            animation: drip 3s infinite;
+        }
+
+        @keyframes drip {
+            0% { transform: translateY(-100px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="moon"></div>
+    
+    <div class="content">
+        <h1>🎃 HALLOWEEN 🎃</h1>
+        <div class="description">
+            <strong>Halloween</strong> to święto obchodzone w nocy z 31 października na 1 listopada, 
+            wywodzące się z dawnego celtyckiego święta Samhain. Celtowie wierzyli, że tej nocy 
+            granica między światem żywych a umarłych znika, a duchy mogą swobodnie wędrować po ziemi.
+            <br><br>
+            <strong>Tradycje Halloween:</strong><br>
+            🎃 Wydrążanie dyni i umieszczanie w nich świec (Jack-o'-lantern)<br>
+            👻 Przebieranie się w straszne kostiumy, aby zmylić złe duchy<br>
+            🍬 "Cukierek albo psikus" - dzieci chodzą po domach prosząc o słodycze<br>
+            🕯️ Zapalanie świec dla upamiętnienia zmarłych<br>
+            🏚️ Opowiadanie strasznych historii i odwiedzanie nawiedzonych miejsc<br>
+            <br>
+            <em>Uważaj... tej nocy duchy są wyjątkowo aktywne...</em>
+        </div>
+        <button class="warning-btn" onclick="triggerJumpscare()">⚠️ NIE KLIKAJ! POWAŻNIE! ⚠️</button>
+    </div>
+
+    <div class="pumpkin" style="left: 10%;">🎃</div>
+    <div class="pumpkin" style="right: 10%; animation-delay: 1s;">👻</div>
+    <div class="pumpkin" style="left: 30%; animation-delay: 2s;">💀</div>
+
+    <div class="jumpscare" id="jumpscare">
+        <div class="jumpscare-content">
+            <svg class="scary-face" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Czarne tło -->
+                <rect width="500" height="500" fill="#000"/>
+                
+                <!-- Przerażająca czaszka -->
+                <ellipse cx="250" cy="220" rx="180" ry="200" fill="#e0e0e0"/>
+                
+                <!-- Oczy - czarne dziury -->
+                <ellipse cx="180" cy="180" rx="45" ry="60" fill="#000"/>
+                <ellipse cx="320" cy="180" rx="45" ry="60" fill="#000"/>
+                
+                <!-- Czerwone świecące oczy -->
+                <ellipse cx="180" cy="180" rx="25" ry="35" fill="#ff0000">
+                    <animate attributeName="opacity" values="1;0.3;1" dur="0.3s" repeatCount="indefinite"/>
+                </ellipse>
+                <ellipse cx="320" cy="180" rx="25" ry="35" fill="#ff0000">
+                    <animate attributeName="opacity" values="1;0.3;1" dur="0.3s" repeatCount="indefinite"/>
+                </ellipse>
+                
+                <!-- Nos -->
+                <path d="M 235 240 L 250 280 L 265 240 Z" fill="#000"/>
+                
+                <!-- Przerażający uśmiech z zębami -->
+                <path d="M 120 320 Q 250 380 380 320" stroke="#000" stroke-width="8" fill="none"/>
+                <rect x="140" y="315" width="15" height="35" fill="#fff"/>
+                <rect x="165" y="318" width="15" height="30" fill="#fff"/>
+                <rect x="190" y="320" width="15" height="28" fill="#fff"/>
+                <rect x="215" y="322" width="15" height="30" fill="#fff"/>
+                <rect x="240" y="323" width="15" height="32" fill="#fff"/>
+                <rect x="265" y="322" width="15" height="30" fill="#fff"/>
+                <rect x="290" y="320" width="15" height="28" fill="#fff"/>
+                <rect x="315" y="318" width="15" height="30" fill="#fff"/>
+                <rect x="340" y="315" width="15" height="35" fill="#fff"/>
+                
+                <!-- Krew -->
+                <path d="M 180 250 Q 185 270 180 280 Q 175 290 180 300" stroke="#8b0000" stroke-width="6" fill="none"/>
+                <path d="M 320 250 Q 325 270 320 280 Q 315 290 320 300" stroke="#8b0000" stroke-width="6" fill="none"/>
+                <ellipse cx="180" cy="305" rx="8" ry="12" fill="#8b0000"/>
+                <ellipse cx="320" cy="305" rx="8" ry="12" fill="#8b0000"/>
+                
+                <!-- Pęknięcia -->
+                <path d="M 150 120 L 180 150 M 350 120 L 320 150 M 200 100 L 220 130" stroke="#333" stroke-width="3"/>
+                
+                <!-- Straszny tekst -->
+                <text x="250" y="470" font-size="45" fill="#ff0000" text-anchor="middle" font-family="Arial Black" font-weight="bold">
+                    ZOSTAŁEŚ OSTRZEŻONY!
+                    <animate attributeName="opacity" values="1;0.5;1" dur="0.2s" repeatCount="indefinite"/>
+                </text>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        // Tworzenie nietoperzy
+        for (let i = 0; i < 12; i++) {
+            const bat = document.createElement('div');
+            bat.className = 'bat';
+            bat.textContent = '🦇';
+            bat.style.left = Math.random() * -100 + 'px';
+            bat.style.top = Math.random() * 100 + '%';
+            bat.style.animationDuration = (8 + Math.random() * 10) + 's';
+            bat.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(bat);
+        }
+
+        // Krople krwi
+        for (let i = 0; i < 5; i++) {
+            const drip = document.createElement('div');
+            drip.className = 'blood-drip';
+            drip.textContent = '💧';
+            drip.style.left = Math.random() * 100 + '%';
+            drip.style.animationDelay = Math.random() * 3 + 's';
+            document.body.appendChild(drip);
+        }
+
+        // Intensywny jumpscare
+        function triggerJumpscare() {
+            const jumpscare = document.getElementById('jumpscare');
+            jumpscare.classList.add('active');
+            
+            // Głośniejszy i straszniejszy dźwięk krzyku
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Pierwszy krzyk - wysoki pisk
+            const oscillator1 = audioContext.createOscillator();
+            const gainNode1 = audioContext.createGain();
+            oscillator1.connect(gainNode1);
+            gainNode1.connect(audioContext.destination);
+            oscillator1.type = 'sawtooth';
+            oscillator1.frequency.setValueAtTime(1200, audioContext.currentTime);
+            oscillator1.frequency.exponentialRampToValueAtTime(300, audioContext.currentTime + 0.8);
+            gainNode1.gain.setValueAtTime(0.5, audioContext.currentTime);
+            gainNode1.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 2);
+            oscillator1.start(audioContext.currentTime);
+            oscillator1.stop(audioContext.currentTime + 2);
+            
+            // Drugi krzyk - niski pomruk
+            setTimeout(() => {
+                const oscillator2 = audioContext.createOscillator();
+                const gainNode2 = audioContext.createGain();
+                oscillator2.connect(gainNode2);
+                gainNode2.connect(audioContext.destination);
+                oscillator2.type = 'triangle';
+                oscillator2.frequency.setValueAtTime(150, audioContext.currentTime);
+                oscillator2.frequency.exponentialRampToValueAtTime(80, audioContext.currentTime + 1);
+                gainNode2.gain.setValueAtTime(0.4, audioContext.currentTime);
+                gainNode2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5);
+                oscillator2.start(audioContext.currentTime);
+                oscillator2.stop(audioContext.currentTime + 1.5);
+            }, 400);
+            
+            // Ukryj po 4 sekundach
+            setTimeout(() => {
+                jumpscare.classList.remove('active');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
